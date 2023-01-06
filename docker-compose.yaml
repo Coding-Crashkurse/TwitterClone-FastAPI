@@ -1,29 +1,25 @@
 version: "3.8"
 
 services:
+  api:
+    build: .
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "5555"]
+    ports:
+      - "5555:5555"
+    environment:
+      DATABASE_URL: "postgresql://postgres:postgres@db:5432/mydb"
+      SECRET_KEY: "dasjdiasjdasdasijdias"
+      ALGORITHM: "HS256"
+      ACCESS_TOKEN_EXPIRE_IN_MINUTES: "30"
+    restart: always
+
   db:
     image: postgres:12
+    ports:
+      - "5432:5432"
     environment:
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "postgres"
       POSTGRES_DB: "mydb"
-    ports:
-      - "5432:5432"
     volumes:
-      - db-data:/var/lib/postgresql/data
-
-  api:
-    build: .
-    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "4000"]
-    environment:
-      DATABASE_URL: "postgresql://postgres:postgres@db:5432/mydb"
-      SECRET_KEY: "123456"
-      ALGORITHM: "HS256"
-      ACCESS_TOKEN_EXPIRE_IN_MINUTES: "30"
-    ports:
-      - "4000:4000"
-    depends_on:
-      - db
-
-volumes:
-  db-data:
+      - ./data:/var/lib/postgresql/data
