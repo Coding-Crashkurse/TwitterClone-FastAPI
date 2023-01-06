@@ -2,7 +2,7 @@ Metadata-Version: 2.1
 Name: twitter
 Version: 0.0.1
 Summary: My FastAPI app
-License: BSD 3-Clause License
+License: MIT
 Keywords: FastAPI
 Classifier: Programming Language :: Python
 Classifier: Programming Language :: Python :: 3

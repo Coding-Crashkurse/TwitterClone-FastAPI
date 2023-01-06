@@ -15,4 +15,4 @@ def create_db_and_tables():
 
 
 def drop_tables():
-    os.remove("users.db")
+    os.remove("twitter.db")

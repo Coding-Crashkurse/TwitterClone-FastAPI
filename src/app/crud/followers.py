@@ -4,32 +4,50 @@ from sqlmodel import Session, select
 from app.db_and_models.models import Follower, FollowerModel, User
 
 
-def create_follower(follower: FollowerModel, db: Session, user_id: int):
+async def create_follower(followermodel: FollowerModel, db: Session, user_id: int):
+
     current_user = db.exec(select(User).where(User.id == user_id)).first()
-    followed_user = db.exec(select(User).where(User.id == follower.follower_id)).first()
+    followed_user = db.exec(
+        select(User).where(User.id == followermodel.follower_id)
+    ).first()
     if not current_user or not followed_user:
         raise HTTPException(status_code=404, detail="User or followed user not found")
 
-    already_following = db.exec(
+    already_followed = db.exec(
         select(Follower)
         .where(Follower.user_id == user_id)
-        .where(Follower.follower_id == follower.follower_id)
+        .where(Follower.follower_id == followermodel.follower_id)
     ).first()
-    if already_following:
+    if already_followed:
         raise HTTPException(
-            status_code=404,
-            detail=f"User {user_id} folgt {follower.follower_id} bereits",
+            status_code=400,
+            detail=f"{user_id} folgt {followermodel.follower_id} bereits",
         )
 
-    new_follower = Follower(user_id=user_id, follower_id=follower.follower_id)
-    db.add(new_follower)
+    follower = Follower(follower_id=followermodel.follower_id, user_id=user_id)
+    db.add(follower)
     db.commit()
-    return {"success": "Follow added"}
+    db.refresh(follower)
+    return {"success": f"ID {user_id} folgt jetzt {follower.follower_id}"}
 
 
-def get_following(user_id: int, db: Session):
-    followers = db.exec(select(Follower).where(Follower.follower_id == user_id)).all()
+async def delete_following(follower_id: int, db: Session, user_id: int):
+    follow = db.exec(
+        select(Follower)
+        .where(Follower.user_id == user_id)
+        .where(Follower.follower_id == follower_id)
+    ).first()
 
-    if not followers:
-        raise HTTPException(status_code=404, detail="No followers found for this user")
-    return followers
+    if not follow:
+        raise HTTPException(status_code=404, detail="Followership nicht gefunden")
+    if follow.user_id != user_id:
+        raise HTTPException(status_code=401, detail="Not authorized")
+
+    db.delete(follow)
+    db.commit()
+    return {"success": "Followership beendet"}
+
+
+async def get_following(user_id: int, db: Session):
+    follower = db.exec(select(Follower).where(Follower.follower_id == user_id)).all()
+    return follower

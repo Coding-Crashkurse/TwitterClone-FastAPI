@@ -9,7 +9,7 @@ version = "0.0.1"
 readme = "README.md"
 requires-python = ">=3.7"
 keywords = ["FastAPI"]
-license = {text = "BSD 3-Clause License"}
+license = {text = "MIT"}
 classifiers = [
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
@@ -17,18 +17,9 @@ classifiers = [
     "Programming Language :: Python :: 3.9",
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
-#dependencies = [
-#    "fastapi>=0.62.0",
-#    "uvicorn>=0.11.5",
-#]
-#[project.optional-dependencies]
-#testing = ["pytest>=6.1.2"]
 
 [tool.setuptools.dynamic]
-#https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html#dynamic-metadata
 dependencies = {file = ["requirements.txt"]}
 
 [tool.setuptools.packages.find]
 where = ["src"]
-
-
