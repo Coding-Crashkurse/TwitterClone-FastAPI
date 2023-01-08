@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
-from sqlmodel import Session
+from sqlmodel import Session, select
 
 from app.auth.auth import get_current_user
 from app.crud.users import create_user, login_user
@@ -21,6 +21,10 @@ async def create_user_endpoint(
 async def read_users_endpoint_me(current_user: User = Depends(get_current_user)):
     return current_user
 
+# @router.get("/allusers")
+# async def read_all(db: Session = Depends(get_session)):
+#     alluser = db.exec(select(User)).all()
+#     return alluser
 
 @router.post("/login", status_code=200)
 async def login_user_endpoint(

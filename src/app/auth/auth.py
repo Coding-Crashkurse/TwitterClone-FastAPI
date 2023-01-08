@@ -12,7 +12,9 @@ from app.db_and_models.session import get_session
 
 SECRET_KEY = os.environ.get("SECRET_KEY")
 ALGORITHM = os.environ.get("ALGORITHM")
-ACCESS_TOKEN_EXPIRE_IN_MINUTES = os.environ.get("ACCESS_TOKEN_EXPIRE_IN_MINUTES")
+ACCESS_TOKEN_EXPIRE_IN_MINUTES = int(os.environ.get("ACCESS_TOKEN_EXPIRE_IN_MINUTES"))
+
+
 
 pwd_context = CryptContext(schemes=["bcrypt"])
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")

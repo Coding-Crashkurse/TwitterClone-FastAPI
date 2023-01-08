@@ -1,7 +1,8 @@
 .env
+Dockerfile
+docker-compose.yaml
 pyproject.toml
 requirements.txt
-twitter.db
 .idea/.gitignore
 .idea/CapStoneProject.iml
 .idea/dbnavigator.xml

@@ -8,8 +8,8 @@ services:
       - "5555:5555"
     environment:
       DATABASE_URL: "postgresql://postgres:postgres@db:5432/mydb"
-      SECRET_KEY: "dasjdiasjdasdasijdias"
-      ALGORITHM: "HS256"
+      SECRET_KEY: jidasjidasijdasiddasd
+      ALGORITHM: HS256
       ACCESS_TOKEN_EXPIRE_IN_MINUTES: 30
     restart: always
 
@@ -22,4 +22,4 @@ services:
       POSTGRES_PASSWORD: "postgres"
       POSTGRES_DB: "mydb"
     volumes:
-      - ./data:/var/lib/postgresql/data
+      - "./sql_data:/var/lib/postgresql/data"

@@ -28,6 +28,6 @@ def on_startup():
     create_db_and_tables()
 
 
-@app.on_event("shutdown")
-def on_shutdown():
-    drop_tables()
+# @app.on_event("shutdown")
+# def on_shutdown():
+#     drop_tables()
