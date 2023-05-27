@@ -4,8 +4,6 @@ services:
   api:
     build: .
     command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "5555"]
-    ports:
-      - "5555:5555"
     environment:
       DATABASE_URL: "postgresql://postgres:postgres@db:5432/mydb"
       SECRET_KEY: jidasjidasijdasiddasd
@@ -15,11 +13,20 @@ services:
 
   db:
     image: postgres:12
-    ports:
-      - "5432:5432"
     environment:
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "postgres"
       POSTGRES_DB: "mydb"
     volumes:
       - "./sql_data:/var/lib/postgresql/data"
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - /etc/letsencrypt:/etc/letsencrypt
+    depends_on:
+      - api
