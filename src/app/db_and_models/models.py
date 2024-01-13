@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import Optional
 
 from pydantic import EmailStr
-from sqlmodel import Field, Relationship, SQLModel
+from sqlmodel import Field, Relationship, SQLModel, AutoString
 
 
 class UserFollowerLink(SQLModel, table=True):
@@ -16,7 +16,7 @@ class UserFollowerLink(SQLModel, table=True):
 
 class UserModel(SQLModel):
     username: str
-    email: EmailStr
+    email: EmailStr = Field(sa_type=AutoString)
     password: str
     name: str
 

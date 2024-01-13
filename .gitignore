@@ -70,3 +70,5 @@ __pypackages__/
 celerybeat-schedule
 
 *.sage.py
+sql_data
+app_123
